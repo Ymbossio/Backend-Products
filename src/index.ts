@@ -5,6 +5,7 @@ import sequelize from "./infrastructure/databases/Sequelice";
 import productsRouter from "./routes/productsRoutes";
 import stockRouter from "./routes/StockRoutes";
 import transactionRouter from "./routes/Transaction";
+import deliveriesRouter from "./routes/DeliveriesRoutes";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/products',productsRouter)
 app.use('/api/stock',stockRouter)
 app.use('/api/transaction',transactionRouter)
+app.use('/api/deliveries',deliveriesRouter)
 
 const PORT = process.env.PORT ?? 4000
 
