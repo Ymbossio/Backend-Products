@@ -1,18 +1,15 @@
 import { Router } from "express";
-import { ProductController } from "../adapters/inbound/http/ProductsController";
-import { SequelizeProductRepository } from "../adapters/outbound/db/SequelizeProductRepository";
-import { CreateProduct } from "../domains/useCases/CreateProducts";
-import { GetAllProducts } from "../domains/useCases/GetProducts";
+import { StockController } from "../adapters/inbound/http/StockController";
+import { SequelizeStockRepository } from "../adapters/outbound/db/SequelizeStockRepository";
+import { UpdateStock } from "../domains/useCases/UpdateStock";
+
+const router = Router();
+
+const stockRepository = new SequelizeStockRepository();
+const updateStockUseCase = new UpdateStock(stockRepository);
+const stockController = new StockController(updateStockUseCase);
 
 
-const productRepository = new SequelizeProductRepository();
-const createProduct = new CreateProduct(productRepository);
-const getProduct = new GetAllProducts(productRepository);
-const productController = new ProductController(createProduct, getProduct);
-
-const router = Router()
-
-router.get("/GetAllProducts", (req, res) => productController.GetAllProducts(req, res));
-router.post("/CreateProducts", (req, res) => productController.CreateProducts(req, res));
+router.put("/UpdateStockProduct", (req, res) => stockController.updateStock(req, res));
 
 export default router;

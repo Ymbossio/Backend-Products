@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { ProductModel } from "../../adapters/outbound/models/ProductModel"
+import { StockModel } from "../../adapters/outbound/models/StockModel"
 
 import * as dotenv from 'dotenv'
 
@@ -28,7 +29,7 @@ const dialectOptions = process.env.NODE_ENV !== 'development'
     port: port,
     database: process.env.NODE_DATABASE,
     dialectOptions: dialectOptions['postgres'] || {},
-    models: [ProductModel],
+    models: [ProductModel, StockModel],
     logging: false,
   });
   

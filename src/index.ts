@@ -3,6 +3,7 @@ import cors from 'cors'
 import * as dotenv from 'dotenv'
 import sequelize from "./infrastructure/databases/Sequelice";
 import router from "./routes/productsRoutes";
+import stockRouter from "./routes/StockRoutes";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api',router)
+app.use('/api',stockRouter)
 
 const PORT = process.env.PORT ?? 4000
 
