@@ -5,7 +5,9 @@ import {
   DataType,
   PrimaryKey,
   AutoIncrement,
+  BelongsTo
 } from "sequelize-typescript";
+import { ProductModel } from "./ProductModel";
 
 
 export interface StockUpdateAttributes {
@@ -36,5 +38,9 @@ export class StockModel extends Model<StockAttributes, StockUpdateAttributes> {
 
   @Column(DataType.INTEGER)
   available!: number;
+
+  @BelongsTo(() => ProductModel, { foreignKey: 'id_product' })
+  product!: ProductModel;
+
 
 }
