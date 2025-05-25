@@ -2,8 +2,9 @@ import express from "express"
 import cors from 'cors'
 import * as dotenv from 'dotenv'
 import sequelize from "./infrastructure/databases/Sequelice";
-import router from "./routes/productsRoutes";
+import productsRouter from "./routes/productsRoutes";
 import stockRouter from "./routes/StockRoutes";
+import transactionRouter from "./routes/Transaction";
 
 dotenv.config();
 
@@ -13,8 +14,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/api',router)
-app.use('/api',stockRouter)
+app.use('/api/products',productsRouter)
+app.use('/api/stock',stockRouter)
+app.use('/api/transaction',transactionRouter)
 
 const PORT = process.env.PORT ?? 4000
 
