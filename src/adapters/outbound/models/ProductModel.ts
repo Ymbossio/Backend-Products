@@ -12,11 +12,19 @@ export interface ProductAttributes {
   id: number;
   name: string;
   price: number;
+  description: string;
+  category: string;
+  image: string;
+  stock: number;
 }
 
 export interface ProductCreationAttributes {
   name: string;
   price: number;
+  description: string;
+  category: string;
+  image: string;
+  stock: number;
 }
 
 @Table({
@@ -34,4 +42,17 @@ export class ProductModel extends Model<ProductAttributes, ProductCreationAttrib
 
   @Column(DataType.FLOAT)
   price!: number;
+
+  @Column(DataType.STRING)
+  description!: string;
+
+  @Column(DataType.STRING)
+  category!: string;
+
+  @Column(DataType.STRING)
+  image!: string;
+
+  @Column(DataType.NUMBER)
+  stock!: number;
+
 }
