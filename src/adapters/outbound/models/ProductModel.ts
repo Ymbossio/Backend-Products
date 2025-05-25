@@ -1,12 +1,5 @@
-
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  PrimaryKey,
-  AutoIncrement,
-} from "sequelize-typescript";
+import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, BelongsTo, HasOne } from "sequelize-typescript";
+import { StockModel } from "./StockModel";
 
 export interface ProductAttributes {
   id: number;
@@ -23,9 +16,7 @@ export interface ProductCreationAttributes {
   price: number;
   description: string;
   category: string;
-  image: string;
-  stock: number;
-}
+  image: string;}
 
 @Table({
   tableName: "products",
@@ -52,7 +43,7 @@ export class ProductModel extends Model<ProductAttributes, ProductCreationAttrib
   @Column(DataType.STRING)
   image!: string;
 
-  @Column(DataType.NUMBER)
-  stock!: number;
+  @HasOne(() => StockModel, { foreignKey: 'id_product' })
+  stock!: StockModel;
 
 }

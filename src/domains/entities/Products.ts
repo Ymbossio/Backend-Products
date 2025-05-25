@@ -7,5 +7,5 @@ export class Products {
     public category: string,
     public image: string,
     public stock: number
-  ) {}
+ ) {}
 }
