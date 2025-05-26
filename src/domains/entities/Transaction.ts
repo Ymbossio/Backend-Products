@@ -4,6 +4,11 @@ export class Transaction {
     public readonly payment_method: string,
     public readonly type_card: string,
     public readonly card_holder: string,
-    public readonly status: string
+    public status: string
   ) {}
+
+    updateTransaction(status: string): void {
+    this.status = status;
+  }
+
 }

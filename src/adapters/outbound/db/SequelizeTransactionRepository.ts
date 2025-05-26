@@ -12,4 +12,31 @@ export class SequelizeTransactionRepository implements TransactionRepository {
       status: transaction.status,
     });
   }
+
+  async findByTransactionId(id_transaction_gateway: string): Promise<Transaction | null> {
+    const transaction = await TransactionModel.findOne({
+      where: { id_transaction_gateway: id_transaction_gateway },
+    });
+
+    if (!transaction) return null;
+
+    return new Transaction(
+      transaction.id_transaction_gateway,
+      transaction.payment_method,
+      transaction.type_card,
+      transaction.card_holder,
+      transaction.status
+    );
+  }
+
+  async save(transaction: Transaction): Promise<void> {
+    await TransactionModel.update(
+      {
+        status: transaction.status,
+      },
+      {
+        where: { id_transaction_gateway: transaction.id_transaction_gateway },
+      }
+    );
+  }
 }
