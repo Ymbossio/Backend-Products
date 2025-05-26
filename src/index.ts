@@ -1,39 +1,57 @@
-import express from "express"
-import cors from 'cors'
-import * as dotenv from 'dotenv'
-import sequelize from "./infrastructure/databases/Sequelice";
+import express from "express";
+import cors from 'cors';
+import * as dotenv from 'dotenv';
+import {createSequelizeInstance} from "./infrastructure/databases/Sequelice";
 import productsRouter from "./routes/productsRoutes";
-import stockRouter from "./routes/StockRoutes";
-import transactionRouter from "./routes/Transaction";
-import deliveriesRouter from "./routes/DeliveriesRoutes";
+import { createStockRouter } from "./routes/StockRoutes";
+import {createTransactionRouter  } from "./routes/Transaction";
+import { createDeliveryRouter } from "./routes/DeliveriesRoutes";
+
+import { UpdateStock } from "./domains/useCases/UpdateStock";
+import { CreateTransaction } from "./domains/useCases/CreateTransaction";
+import { CreateDelivery } from "./domains/useCases/CreateDeliveries";
+import { SequelizeStockRepository } from "./adapters/outbound/db/SequelizeStockRepository";
+import { SequelizeTransactionRepository } from "./adapters/outbound/db/SequelizeTransactionRepository";
+import { SequelizeDeliveryRepository } from "./adapters/outbound/db/SequelizeDeliveriesRepository";
+import { Sequelize } from "sequelize-typescript";
+
 
 dotenv.config();
 
-const app = express()
+const app = express();
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/api/products',productsRouter)
-app.use('/api/stock',stockRouter)
-app.use('/api/transaction',transactionRouter)
-app.use('/api/deliveries',deliveriesRouter)
+const stockRepository = new SequelizeStockRepository();
+const createTransaction = new SequelizeTransactionRepository();
+const createDeliveries = new SequelizeDeliveryRepository();
 
-const PORT = process.env.PORT ?? 4000
+const updateStockUseCase = new UpdateStock(stockRepository);
+const createTransactions =  new CreateTransaction(createTransaction)
+const createDeliveryUseCase = new CreateDelivery(createDeliveries)
+
+app.use('/api/products', productsRouter);
+app.use('/api/stock', createStockRouter(updateStockUseCase));
+
+app.use('/api/transaction', createTransactionRouter(createTransactions));
+app.use('/api/deliveries', createDeliveryRouter(createDeliveryUseCase));
+
+const PORT = process.env.PORT ?? 4000;
 
 async function startServer() {
   try {
-
-    await sequelize.sync();
+    const sequelize = createSequelizeInstance();  // aquí creas la instancia
+    await sequelize.sync();  
     console.log('connection to database success');
     const server = app.listen(PORT, () => {
       console.log(`Server Running on http://localhost:${PORT}`);
     });
 
-    app.get('/', (req, res)=>{
+    app.get('/', (req, res) => {
       res.send('<h1>This server Run 🚀</h1>');
-    })
+    });
 
     return server;
 
@@ -46,6 +64,5 @@ async function startServer() {
 if (require.main === module) {
   startServer();
 }
-
 
 export default app;

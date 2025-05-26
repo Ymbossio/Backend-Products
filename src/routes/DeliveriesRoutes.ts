@@ -1,15 +1,14 @@
 import { Router } from "express";
 import { DeliveryController } from "../adapters/inbound/http/DeliveriesController";
-import { SequelizeDeliveryRepository } from "../adapters/outbound/db/SequelizeDeliveriesRepository";
 import { CreateDelivery } from "../domains/useCases/CreateDeliveries";
 
 
-const productRepository = new SequelizeDeliveryRepository();
-const getProduct = new CreateDelivery(productRepository);
-const DeliveriesController = new DeliveryController(getProduct);
+export function createDeliveryRouter(createDeliveryUseCase: CreateDelivery) {
 
-const router = Router()
+  const router = Router();
+  const controller = new DeliveryController(createDeliveryUseCase);
+  router.post("/CreateDeliveries", (req, res) => controller.create(req, res));
 
-router.post("/CreateDeliveries", (req, res) => DeliveriesController.create(req, res));
+  return router;
 
-export default router;
+}
