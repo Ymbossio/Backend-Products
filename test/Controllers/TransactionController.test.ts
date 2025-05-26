@@ -2,7 +2,7 @@ import { TransactionController } from "../../src/adapters/inbound/http/Transacti
 import { Request, Response } from "express";
 import { Transaction } from "../../src/domains/entities/Transaction";
 
-describe("TransactionController unit tests", () => {
+describe("TransactionController update method unit tests", () => {
   const mockResponse = () => {
     const res: Partial<Response> = {};
     res.status = jest.fn().mockReturnValue(res);
@@ -10,53 +10,74 @@ describe("TransactionController unit tests", () => {
     return res as Response;
   };
 
-  it("POST /CreateTransaction - crea una transacción correctamente", async () => {
-    const createTransactionMock = {
+  it("PUT /UpdateTransaction - actualiza una transacción correctamente", async () => {
+    const updateTransactionMock = {
       execute: jest.fn().mockResolvedValue(undefined),
     };
+    const createTransactionMock = { execute: jest.fn() };
 
-    const controller = new TransactionController(createTransactionMock as any);
+    const controller = new TransactionController(
+      createTransactionMock as any,
+      updateTransactionMock as any
+    );
 
     const req = {
       body: {
         id_transaction_gateway: "gtw-123",
-        payment_method: "credit_card",
-        type_card: "VISA",
-        card_holder: "Juan Perez",
         status: "APPROVED",
       },
     } as Request;
 
     const res = mockResponse();
 
-    await controller.create(req, res);
+    await controller.update(req, res);
 
-    expect(createTransactionMock.execute).toHaveBeenCalledWith(
-      new Transaction(
-        "gtw-123",
-        "credit_card",
-        "VISA",
-        "Juan Perez",
-        "APPROVED"
-      )
-    );
+    expect(updateTransactionMock.execute).toHaveBeenCalledWith("gtw-123", "APPROVED");
     expect(res.status).toHaveBeenCalledWith(201);
-    expect(res.json).toHaveBeenCalledWith({ message: "Transaction created successfully" });
+    expect(res.json).toHaveBeenCalledWith({ message: "Transaction updated successfully" });
   });
 
-  it("POST /CreateTransaction - maneja errores devolviendo 500", async () => {
-    const createTransactionMock = {
+  it("PUT /UpdateTransaction - retorna 400 si tipos de entrada no son string", async () => {
+    const updateTransactionMock = {
+      execute: jest.fn(),
+    };
+    const createTransactionMock = { execute: jest.fn() };
+
+    const controller = new TransactionController(
+      createTransactionMock as any,
+      updateTransactionMock as any
+    );
+
+    const req = {
+      body: {
+        id_transaction_gateway: 123,  
+        status: null,               
+      },
+    } as unknown as Request;
+
+    const res = mockResponse();
+
+    await controller.update(req, res);
+
+    expect(updateTransactionMock.execute).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ message: "Invalid input types" });
+  });
+
+  it("PUT /UpdateTransaction - maneja errores internos devolviendo 500", async () => {
+    const updateTransactionMock = {
       execute: jest.fn().mockRejectedValue(new Error("DB error")),
     };
+    const createTransactionMock = { execute: jest.fn() };
 
-    const controller = new TransactionController(createTransactionMock as any);
+    const controller = new TransactionController(
+      createTransactionMock as any,
+      updateTransactionMock as any
+    );
 
     const req = {
       body: {
         id_transaction_gateway: "gtw-123",
-        payment_method: "credit_card",
-        type_card: "VISA",
-        card_holder: "Juan Perez",
         status: "APPROVED",
       },
     } as Request;
@@ -65,12 +86,12 @@ describe("TransactionController unit tests", () => {
 
     const consoleErrorMock = jest.spyOn(console, "error").mockImplementation(() => {});
 
-    await controller.create(req, res);
+    await controller.update(req, res);
 
-    expect(createTransactionMock.execute).toHaveBeenCalledTimes(1);
+    expect(updateTransactionMock.execute).toHaveBeenCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({
-      message: "Error creating transaction",
+      message: "Error updating transaction",
       error: "DB error",
     });
 

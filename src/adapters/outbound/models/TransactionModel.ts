@@ -1,6 +1,6 @@
-import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, BelongsTo} from "sequelize-typescript";
+import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement} from "sequelize-typescript";
 
-export interface StockAttributes {
+export interface TransactionsAttributes {
   id_transaction: number;  
   id_transaction_gateway: string;
   payment_method: string;
@@ -10,7 +10,7 @@ export interface StockAttributes {
 }
 
 
-export interface StockCreationAttributes {
+export interface TransactionsCreationAttributes {
   id_transaction_gateway: string;
   payment_method: string;
   type_card: string;
@@ -18,15 +18,13 @@ export interface StockCreationAttributes {
   status: string;
 }
 
-
-
 @Table({
   tableName: "transaction",
   timestamps: false,
 })
 
 
-export class TransactionModel extends Model<StockAttributes, StockCreationAttributes> {
+export class TransactionModel extends Model<TransactionsAttributes,TransactionsCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
