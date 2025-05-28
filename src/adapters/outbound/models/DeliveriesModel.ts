@@ -38,6 +38,6 @@ export class DeliveryModel extends Model<DeliveriesAttributes, DeliveriesCreatio
   @Column(DataType.STRING(200))
   address!: string;
 
-  @Column(DataType.INTEGER)
+  @Column(DataType.STRING)
   id_transaction!: string;
 }
