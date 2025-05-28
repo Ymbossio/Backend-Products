@@ -1,7 +1,7 @@
 # 🛠️API de Productos y Transacciones
 
 Esta API permite gestionar productos, transacciones, entregas y stock en una tienda virtual. Está diseñada para integrarse con un frontend disponible en https://frontend-products-zpdo.onrender.com/, 
-donde los usuarios pueden explorar productos y realizar compras mediante la pasarela de pagos integrada desplegada **Render** un servicio Cloud
+donde los usuarios pueden explorar productos y realizar compras mediante la pasarela de pagos integrada.
 
 ---
 # 🧩Arquitectura
@@ -37,8 +37,8 @@ Beneficios:
 
 # 🔗Enlances
 
-- Url Repositorio **Github**: https://github.com/Ymbossio/Backend-Products
-- Url Despliegue **Render**: https://backend-products-dxmh.onrender.com/ 
+- 🐙Url Repositorio **Github**: https://github.com/Ymbossio/Backend-Products
+- 🌍Url Despliegue **Render**: https://backend-products-dxmh.onrender.com/ 
 
 ---
 
