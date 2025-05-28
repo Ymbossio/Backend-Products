@@ -1,10 +1,10 @@
-# 🛠️ API de Productos y Transacciones
+# 🛠️API de Productos y Transacciones
 
 Esta API permite gestionar productos, transacciones, entregas y stock en una tienda virtual. Está diseñada para integrarse con un frontend disponible en https://frontend-products-zpdo.onrender.com/, 
 donde los usuarios pueden explorar productos y realizar compras mediante la pasarela de pagos integrada desplegada **Render** un servicio Cloud
 
 ---
-## 🧩 Arquitectura
+# 🧩Arquitectura
 
 El proyecto emplea **Arquitectura Hexagonal (Ports & Adapters)**. Esto garantiza que el núcleo de la lógica de negocio esté desacoplado de tecnologías externas como bases de datos, frameworks web y pasarelas de pago.
 
@@ -15,27 +15,34 @@ Beneficios:
 
 ---
 
-## 🚀 Tecnologías Utilizadas
+# 🚀Tecnologías Utilizadas
 
-- **Node.js**
-- **Express**
-- **TypeScript**
-- **PostgreSQL**
-- **Sequelize (ORM)**
-- **Jest** (para testing)
-- **Patrón de diseño Hexagonal**
-- **Render** (Provedor Cloud)
+🟩 Node.js – Entorno de ejecución para JavaScript en el servidor.
+
+🚂 Express – Framework minimalista para construir APIs REST.
+
+🌀 TypeScript – Superset de JavaScript tipado para mayor robustez.
+
+🐘 PostgreSQL – Sistema de gestión de bases de datos relacional.
+
+🧬 Sequelize (ORM) – Mapeador objeto-relacional para interactuar con PostgreSQL.
+
+🧪 Jest – Framework de pruebas para asegurar la calidad del código.
+
+🧱 Patrón de diseño Hexagonal – Arquitectura que promueve la separación de responsabilidades.
+
+☁️ Render – Plataforma de despliegue en la nube.
 
 ---
 
-## Enlances
+# 🔗Enlances
 
 - Url Repositorio **Github**: https://github.com/Ymbossio/Backend-Products
 - Url Despliegue **Render**: https://backend-products-dxmh.onrender.com/ 
 
 ---
 
-## 📦 Endpoints Disponibles
+# 📦Endpoints Disponibles
 
 ### 📦 `/products`
 Obtiene los productos disponibles en la tienda
@@ -53,7 +60,7 @@ Una vez procesado el pago procede a crear la entrega con la información del pro
 - `PUT api/stock/UpdateStockProduct`: Actualizar cantidad de productos en stock
 ---
 
-## 🛒 Flujo General de Compra
+# 🛒 Flujo General de Compra
 
 1. El usuario navega por los productos en el frontend. https://frontend-products-zpdo.onrender.com/
 2. Selecciona uno producto y procede a llenar la información requerida para procesar el pago
@@ -63,7 +70,7 @@ Una vez procesado el pago procede a crear la entrega con la información del pro
 ---
 
 
-## 🧪 Testing
+# 🧪Testing
 Las pruebas han sido desarrolladas con **Jest**. está es la cobertura.
 
 File                                | % Stmts | % Branch | % Funcs | % Lines |
@@ -103,5 +110,5 @@ All files                           |     100 |    95.45 |     100 |     100 |
   Transaction.ts                    |     100 |      100 |     100 |     100 |                  
   productsRoutes.ts                 |     100 |      100 |     100 |     100 |     
 
-  ## Autor
+  # 👤Autor
   Yovanis Manuel Bossio Lambraño
