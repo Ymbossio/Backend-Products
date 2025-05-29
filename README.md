@@ -60,6 +60,13 @@ Una vez procesado el pago procede a crear la entrega con la información del pro
 - `PUT api/stock/UpdateStockProduct`: Actualizar cantidad de productos en stock
 ---
 
+# 📄 Documentación de la API
+Esta documentación describe los endpoints disponibles en la API, incluyendo los métodos HTTP, los parámetros requeridos, los formatos de solicitud y respuesta, y ejemplos de uso.
+Puedes consultar y probar los endpoints en la siguiente colección de Postman
+[Ver documentación Postman](https://documenter.getpostman.com/view/28400738/2sB2qfBKLr)
+
+---
+
 # 🛒 Flujo General de Compra
 
 1. El usuario navega por los productos en el frontend. https://frontend-products-zpdo.onrender.com/
