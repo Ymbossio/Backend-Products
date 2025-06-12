@@ -6,15 +6,18 @@ import productsRouter from "./routes/productsRoutes";
 import { createStockRouter } from "./routes/StockRoutes";
 import { TransactionActions } from "./routes/Transaction";
 import { createDeliveryRouter } from "./routes/DeliveriesRoutes";
+import { gangsWayRouter } from "./routes/GangsWay";
 
 import { UpdateStock } from "./domains/useCases/UpdateStock";
 import { CreateTransaction } from "./domains/useCases/CreateTransaction";
 import { UpdateTransaction } from "./domains/useCases/UpdateTransaction";
 import { CreateDelivery } from "./domains/useCases/CreateDeliveries";
+import { TokenizeCard } from "./domains/useCases/TokenizeCard";
 
 import { SequelizeStockRepository } from "./adapters/outbound/db/SequelizeStockRepository";
 import { SequelizeTransactionRepository } from "./adapters/outbound/db/SequelizeTransactionRepository";
 import { SequelizeDeliveryRepository } from "./adapters/outbound/db/SequelizeDeliveriesRepository";
+import { HttpCardTokenizationService } from "./adapters/outbound/http/HttpCardTokenizationService";
 
 dotenv.config();
 
@@ -28,17 +31,18 @@ const stockRepository = new SequelizeStockRepository();
 
 const transactionRepository = new SequelizeTransactionRepository();
 const deliveryRepository = new SequelizeDeliveryRepository();
+const gangsWayService = new HttpCardTokenizationService();
 
 const updateStockUseCase = new UpdateStock(stockRepository);
 
 const createTransactionUseCase = new CreateTransaction(transactionRepository);
 const updateTransactionUseCase = new UpdateTransaction(transactionRepository);
-
+const tranferenceUseCase = new TokenizeCard(gangsWayService)
 const createDeliveryUseCase = new CreateDelivery(deliveryRepository);
 
 app.use('/api/products', productsRouter);
 app.use('/api/stock', createStockRouter(updateStockUseCase));
-
+app.use('/api/gangsway', gangsWayRouter(tranferenceUseCase));
 app.use(
   '/api/transaction',
   TransactionActions(createTransactionUseCase, updateTransactionUseCase)
